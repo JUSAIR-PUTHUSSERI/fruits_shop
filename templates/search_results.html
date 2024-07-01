@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Fruit Shop - Search Results</title>
     <style>
         /* Basic styling for the body and main content */
@@ -8,6 +9,8 @@
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
+            color: #333;
         }
 
         main {
@@ -15,20 +18,23 @@
             background-color: #fff;
             max-width: 800px;
             margin: 20px auto;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
 
         /* Header styling */
         header {
-            background-color: #00b336;
+            background-color: #000;
             color: white;
             padding: 20px;
             text-align: center;
+            border-bottom: 5px solid #e5533c;
+            border-radius: 0 0 16px 16px;
         }
 
         header h1 {
             margin: 0;
+            font-size: 2.5em;
         }
 
         /* Search form styling */
@@ -42,22 +48,35 @@
             padding: 10px;
             width: 300px;
             border: 1px solid #ddd;
-            border-radius: 4px 0 0 4px;
+            border-radius: 8px 0 0 8px;
             outline: none;
-            border: none;
+            font-size: 1em;
+            border-right: none;
         }
 
         button {
-            padding: 10px;
-            /* border: 1px solid #ff0000; */
-            background-color: #00b336;
-            color: white;
+            padding: 10px 15px;
+            background-color: #2ecc71;
+            color: black;
             cursor: pointer;
-            border-radius: 0 4px 4px 0;
+            border-radius: 0 8px 8px 0;
+            border: none;
+            font-size: 1em;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
         button:hover {
-            background-color: #ff0000;
+            background-color: #27ae60;
+            transform: translateY(-2px);
+        }
+
+        button a {
+            text-decoration: none;
+            color: black;
+        }
+
+        button:first-of-type {
+            margin-right: 5px;
         }
 
         /* Search results styling */
@@ -67,41 +86,74 @@
         }
 
         ul li {
+            display: flex;
+            align-items: center;
             background-color: #f9f9f9;
             margin: 10px 0;
             padding: 15px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 12px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        ul li:hover {
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
 
         ul li:nth-child(odd) {
             background-color: #ececec;
         }
 
+        ul li img {
+            max-width: 100px;
+            margin-right: 20px;
+            border-radius: 8px;
+        }
+
+        ul li div {
+            flex: 1;
+        }
+
         h2 {
-            color: #333;
+            color: #ff6347;
+            font-size: 1.75em;
+            margin-bottom: 10px;
         }
 
         p {
             color: #666;
         }
-        button{
-            border: 2px solid white;
-        }
-        button a{
-            text-decoration: none;
-            color: white;
+
+        /* Add responsive design */
+        @media (max-width: 600px) {
+            form {
+                flex-direction: column;
+            }
+
+            input[type="text"], button {
+                width: 100%;
+                margin: 5px 0;
+            }
+
+            ul li {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            ul li img {
+                margin: 0 0 10px 0;
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Search Your results</h1>
+        <h1>Search Your Results</h1>
         <form method="GET" action="{% url 'product_search' %}">
             <input type="text" name="q" placeholder="Search for products...">
             <button type="submit">Search</button>
-
-            <button><a href="{% url 'Product_list' %}">back to product</a></button>
+            <button><a href="{% url 'Product_list' %}">Back to Products</a></button>
         </form>
     </header>
     <main>
@@ -111,10 +163,12 @@
             {% if results %}
                 <ul>
                     {% for product in results %}
-                        <li>{{ product.product_name }} - ${{ product.product_price }}</li>
-                        <div>
-                            <img src="{{ product.product_images.url }}" alt="">
-                        </div>
+                        <li>
+                            <img src="{{ product.product_images.url }}" alt="{{ product.product_name }}">
+                            <div>
+                                <h3>{{ product.product_name }} - ${{ product.product_price }}</h3>
+                            </div>
+                        </li>
                     {% endfor %}
                 </ul>
             {% else %}
