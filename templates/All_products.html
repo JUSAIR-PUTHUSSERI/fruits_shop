@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'blank_layout.html' %}
+{% block content %}
+
+<style>
+   
+
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin-top: 5rem;
+        padding: 0 10px;
+    }
+
+    .card {
+        background: #fff;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin: 15px;
+        overflow: hidden;
+        transition: transform 0.2s;
+        width: 280px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    .card img {
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        width: 100%;
+        height: 200px; /* Fixed height */
+        object-fit: contain;
+        aspect-ratio: 1/1; /* Maintain aspect ratio */
+    }
+
+    .card-body {
+        padding: 15px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 15px;
+    }
+
+    .card-price {
+        font-size: 1rem;
+        color: #27ae60;
+        margin-bottom: 15px;
+    }
+
+    .btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .btn a {
+        background: #00ae00;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 7px;
+        padding: 10px 20px;
+        transition: background-color 0.3s ease;
+    }
+    
+    .btn a:hover {
+        background: #00e600;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            margin-top: 50px;
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .card {
+            width: 90%;
+            margin: 10px;
+        }
+    }
+</style>
+
+
+<div class="container">
+
+
+    {% for product in all_products %}
+    <div class="card">
+        <img src="{{ product.product_images.url }}" class="card-img-top" alt="{{ product.product_name }}">
+        <div class="card-body">
+            <div>
+                <h5 class="card-title">{{ product.product_name }}</h5>
+                <p class="card-price">${{ product.product_price }}</p>
+            </div>
+            <div class="btn">
+                <a href="{% url 'Product_list_one' product.id %}" class="btn-primary">Read more</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}
+
+</html>

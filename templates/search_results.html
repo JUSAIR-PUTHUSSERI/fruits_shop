@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fruit Shop - Search Results</title>
+    <style>
+        /* Basic styling for the body and main content */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        main {
+            padding: 20px;
+            background-color: #fff;
+            max-width: 800px;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header styling */
+        header {
+            background-color: #00b336;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        /* Search form styling */
+        form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            outline: none;
+            border: none;
+        }
+
+        button {
+            padding: 10px;
+            /* border: 1px solid #ff0000; */
+            background-color: #00b336;
+            color: white;
+            cursor: pointer;
+            border-radius: 0 4px 4px 0;
+        }
+
+        button:hover {
+            background-color: #ff0000;
+        }
+
+        /* Search results styling */
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #f9f9f9;
+            margin: 10px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        ul li:nth-child(odd) {
+            background-color: #ececec;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            color: #666;
+        }
+        button{
+            border: 2px solid white;
+        }
+        button a{
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Search Your results</h1>
+        <form method="GET" action="{% url 'product_search' %}">
+            <input type="text" name="q" placeholder="Search for products...">
+            <button type="submit">Search</button>
+
+            <button><a href="{% url 'Product_list' %}">back to product</a></button>
+        </form>
+    </header>
+    <main>
+        <h2>Search Results</h2>
+        {% if query %}
+            <p>Results for "{{ query }}":</p>
+            {% if results %}
+                <ul>
+                    {% for product in results %}
+                        <li>{{ product.product_name }} - ${{ product.product_price }}</li>
+                        <div>
+                            <img src="{{ product.product_images.url }}" alt="">
+                        </div>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No products found.</p>
+            {% endif %}
+        {% else %}
+            <p>Please enter a search query.</p>
+        {% endif %}
+    </main>
+</body>
+</html>
